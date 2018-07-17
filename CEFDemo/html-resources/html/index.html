@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        var json = JSON.stringify({ "id": 134343, "name": "彩笔" });
+        function testMethod(str) {
+            alert(str);
+            return { id: 1111, name: "老朱" };
+        }
+        function callback(data) {
+            alert(data);
+        }
+        function root() {
+        }
+        root.prototype.testMethod = function (key) {
+            return { id: 1111, name: "老朱2" };
+        }
+    </script>
+
+    <button class="btn btn-info" onclick="cefCustomObject.showDevTools();">Open Chrome Dev Tools</button>
+    <button class="btn btn-primary" onclick="cefCustomObject.opencmd();">Open cmd.exe</button>
+    <button class="btn btn-primary" onclick="cefCustomObject.print(json);">print</button>
+    <button class="btn btn-primary" onclick="cefCustomObject.jSCallback(callback);">callback</button>
+</body>
+</html>
