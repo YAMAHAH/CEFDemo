@@ -1,6 +1,9 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
+using Newtonsoft.Json;
+using RSG;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,11 +36,11 @@ namespace CEFDemo
         public void Print(string data)
         {
             var frame = _instanceBrowser.GetBrowser().MainFrame;
-            frame.ExecuteJavaScriptAsync("testMethod('3535')");
+            frame.ExecuteJavaScriptAsync("TestMethod('3535')");
             var list = _instanceBrowser.GetBrowser().GetFrameNames();
             foreach (var item in list)
             {
-                _instanceBrowser.GetBrowser().GetFrame(item).ExecuteJavaScriptAsync("testMethod('1234')");
+                _instanceBrowser.GetBrowser().GetFrame(item).ExecuteJavaScriptAsync("TestMethod('1234')");
             }
            
             MessageBox.Show(data);
@@ -45,15 +48,15 @@ namespace CEFDemo
         public void CSharpCallback()
         {
             var frame = _instanceBrowser.GetBrowser().MainFrame;
-            var task = frame.EvaluateScriptAsync(" new root().testMethod('1245')", null);
+            var task = frame.EvaluateScriptAsync("new ngService.TestService().getOrder()", null);
 
             task.ContinueWith(t =>
             {
                 if (!t.IsFaulted)
                 {
                     var response = t.Result;
-                    var evaluateJavaScriptResult = response.Success ? (response.Result ?? "null") : response.Message;
-                    MessageBox.Show(evaluateJavaScriptResult.GetType().ToString());
+                    var evaluateJavaScriptResult = (response.Success ? (response.Result ?? "null") : response.Message);
+                    MessageBox.Show(evaluateJavaScriptResult.ToString());
                 }
             }, TaskScheduler.Default);
         }

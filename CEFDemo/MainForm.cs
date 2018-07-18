@@ -15,11 +15,11 @@ namespace CEFDemo
             CefSettings settings = new CefSettings();
             String page = string.Format(@"{0}\html-resources\html\index.html", Application.StartupPath);
             //String page = @"C:\Users\SDkCarlos\Desktop\artyom-HOMEPAGE\index.html";
-
-            if (!File.Exists(page))
-            {
-                MessageBox.Show("Error The html file doesn't exists : " + page);
-            }
+            page = "http://localhost:4200";
+            //if (!File.Exists(page))
+            //{
+            //    MessageBox.Show("Error The html file doesn't exists : " + page);
+            //}
             // Initialize cef with the provided settings
             if (!Cef.IsInitialized)
             {
@@ -61,13 +61,13 @@ namespace CEFDemo
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
         {
-            // chromeBrowser.ShowDevTools();
+            //chromeBrowser.ShowDevTools();
             IFrame frame = chromeBrowser.GetBrowser().MainFrame;
-            frame.ExecuteJavaScriptAsync("testMethod('111')");
+            frame.ExecuteJavaScriptAsync("TestMethod('111')");
             var list = chromeBrowser.GetBrowser().GetFrameNames();
             foreach (var item in list)
             {
-                chromeBrowser.GetBrowser().GetFrame(item).ExecuteJavaScriptAsync("testMethod('1234')");
+                chromeBrowser.GetBrowser().GetFrame(item).ExecuteJavaScriptAsync("TestMethod('1234')");
             }
         }
 

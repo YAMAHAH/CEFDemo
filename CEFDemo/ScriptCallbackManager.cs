@@ -11,7 +11,6 @@ namespace CEFDemo
             {
                 using (javascriptCallback)
                 {
-
                     string response = "callback";
                     await javascriptCallback.ExecuteAsync(response);
                 }
