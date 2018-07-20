@@ -61,7 +61,7 @@ namespace CEFDemo
 
         private void ChromeBrowser_IsBrowserInitializedChanged(object sender, IsBrowserInitializedChangedEventArgs e)
         {
-            //chromeBrowser.ShowDevTools();
+            chromeBrowser.ShowDevTools();
             IFrame frame = chromeBrowser.GetBrowser().MainFrame;
             frame.ExecuteJavaScriptAsync("TestMethod('111')");
             var list = chromeBrowser.GetBrowser().GetFrameNames();

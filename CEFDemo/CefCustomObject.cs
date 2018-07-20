@@ -2,6 +2,7 @@
 using CefSharp.WinForms;
 using Newtonsoft.Json;
 using RSG;
+using System;
 using System.Diagnostics;
 using System.Dynamic;
 using System.Threading.Tasks;
@@ -48,7 +49,13 @@ namespace CEFDemo
         public void CSharpCallback()
         {
             var frame = _instanceBrowser.GetBrowser().MainFrame;
-            var task = frame.EvaluateScriptAsync("new ngService.TestService().getOrder()", null);
+
+            var key = Guid.NewGuid().ToString(); 
+            CallBackContainer.RegisterCallbackAction(key, data =>
+            {
+                MessageBox.Show(data);
+            });
+            var task = frame.EvaluateScriptAsync($"new ngService.TestService().getOrder(\"{key.ToString()}\")", null);
 
             task.ContinueWith(t =>
             {
@@ -56,7 +63,7 @@ namespace CEFDemo
                 {
                     var response = t.Result;
                     var evaluateJavaScriptResult = (response.Success ? (response.Result ?? "null") : response.Message);
-                    MessageBox.Show(evaluateJavaScriptResult.ToString());
+                    //MessageBox.Show(evaluateJavaScriptResult.ToString());
                 }
             }, TaskScheduler.Default);
         }
@@ -64,6 +71,11 @@ namespace CEFDemo
         public void JSCallback(IJavascriptCallback callback)
         {
             new ScriptCallbackManager().FindComputerInfo(callback);
+        }
+
+        public void NetCallbackAsync(string actionId,string jsonData)
+        {
+            CallBackContainer.Execute(actionId, jsonData);
         }
     }
 }

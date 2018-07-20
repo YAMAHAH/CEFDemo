@@ -1,8 +1,8 @@
 
 import { Injectable } from '@angular/core';
-import { testMethod, ExposeService, ExposeFunction, InjectService } from './FunctionUtil';
+import { testMethod, ExposeService, ExposeFunction, InjectService, getHandle, getValue } from './FunctionUtil';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService } from './GlobalService';
+import { NetServiceObject } from './NetServiceObject';
 import { ResponseMessage } from '../model/ResponseMessage';
 
 
@@ -11,18 +11,27 @@ import { ResponseMessage } from '../model/ResponseMessage';
 export class TestService {
 
     @InjectService()
-    cefCustomObject: GlobalService;
-    private http: HttpClient;
+    cefCustomObject: NetServiceObject;
+    private _httpClient: HttpClient
 
     constructor() {
-        this.http = this.http || window["ngCommon"]["httpClient"];
+
+    }
+
+    get httpClient(): HttpClient {
+        if (!this._httpClient) {
+            this._httpClient = this._httpClient || getHandle(window).qt.commonModule.httpClient;
+        }
+        return this._httpClient;
     }
 
     @ExposeFunction()
-    getOrder() {
-        this.http.get("http://localhost:8080/test/find")
+    getOrder(key: string) {
+
+        this.httpClient.get("http://localhost:8080/test/find")
             .subscribe(res => {
-                this.cefCustomObject.print(JSON.stringify(res));
+                let str = JSON.stringify(res);
+                this.cefCustomObject.netCallbackAsync(key.toString(), str.toString());
             });
         return JSON.stringify(new ResponseMessage(1001, "sucessful"));
         // return JSON.stringify({

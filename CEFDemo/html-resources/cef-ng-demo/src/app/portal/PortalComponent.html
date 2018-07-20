@@ -1,0 +1,15 @@
+<button class="btn btn-info" (click)="cefCustomObject.showDevTools()">Open Chrome Dev Tools</button>
+<button class="btn btn-primary" (click)="cefCustomObject.opencmd()">Open cmd.exe</button>
+<button class="btn btn-primary" (click)="cefCustomObject.print(json)">print</button>
+<button class="btn btn-primary" (click)="cefCustomObject.jSCallback(callback)">callback</button>
+<button class="btn btn-primary" (click)="cefCustomObject.cSharpCallback()">CSharpCallback</button>
+<button class="btn btn-primary" (click)="openPurOrder()">openPurOrder</button>
+
+
+<div style="display:flex;flex:1;">
+    <div *ngFor="let tabcontent of navTabModels" [ngClass]="getContentClass(tabcontent)">
+        <div style="display:flex;flex:1 0 auto;">
+            <qk-router-outlet style="display:flex;flex:1 0 auto;" [name]="tabcontent.outlet"></qk-router-outlet>
+        </div>
+    </div>
+</div>
