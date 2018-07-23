@@ -102,3 +102,11 @@ export class PortalComponent implements OnInit, IRouterOutletPortal {
     }
 
 }
+
+//
+//加载模块
+//创建模板
+//显示模板
+//  模板数据
+//  模板位置
+//  模板布局
